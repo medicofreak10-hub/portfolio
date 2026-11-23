@@ -16,7 +16,8 @@ export const config = {
   emailTo: env.EMAIL_TO || env.GMAIL_USER || '',
   vapidPublic: env.VAPID_PUBLIC_KEY || '',
   vapidPrivate: env.VAPID_PRIVATE_KEY || '',
-  vapidSubject: env.VAPID_SUBJECT || 'mailto:admin@localhost',
+  // Apple's push service rejects 'localhost' subjects, so fall back to a real-looking address
+  vapidSubject: env.VAPID_SUBJECT || (env.GMAIL_USER ? 'mailto:' + env.GMAIL_USER : 'mailto:portfolio@example.com'),
   disableJobs: env.DISABLE_JOBS === '1',
   appPin: env.APP_PIN || '',
 };
