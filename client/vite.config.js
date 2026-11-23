@@ -6,16 +6,18 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const apiPort = process.env.PORT || 8080;
+const preview = process.env.VITE_STATIC === '1';
 
 export default defineConfig({
   root: here,
+  base: preview ? './' : '/',
   publicDir: path.join(here, 'public'),
-  build: { outDir: path.join(here, '..', 'dist'), emptyOutDir: true, chunkSizeWarningLimit: 900 },
+  build: { outDir: path.join(here, '..', preview ? 'dist-preview' : 'dist'), emptyOutDir: true, chunkSizeWarningLimit: 900 },
   server: { host: true, port: 5173, proxy: { '/api': `http://localhost:${apiPort}` } },
   css: { postcss: path.join(here, 'postcss.config.cjs') },
   plugins: [
     react(),
-    VitePWA({
+    !preview && VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.js',

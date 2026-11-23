@@ -11,7 +11,8 @@
     "dev": "concurrently -n api,web -c cyan,magenta \"node --watch server/index.js\" \"vite --config client/vite.config.js\"",
     "build": "vite build --config client/vite.config.js",
     "test": "node --test tests/*.test.js",
-    "vapid": "node server/scripts/vapid.js"
+    "vapid": "node server/scripts/vapid.js",
+    "build:preview": "VITE_STATIC=1 vite build --config client/vite.config.js"
   },
   "engines": {
     "node": ">=20"

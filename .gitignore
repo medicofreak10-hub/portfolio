@@ -11,3 +11,4 @@ data/
 !tests/fixtures/*.csv
 .DS_Store
 *.log
+dist-preview/

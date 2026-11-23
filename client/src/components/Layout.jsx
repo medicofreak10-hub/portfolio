@@ -42,7 +42,7 @@ export default function Layout({ children }) {
       <header className="sticky top-0 z-30 border-b border-line/70 bg-page/90 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.6rem)] backdrop-blur">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/favicon.svg" alt="" className="h-7 w-7" />
+            <img src={import.meta.env.BASE_URL + 'favicon.svg'} alt="" className="h-7 w-7" />
             <span className="whitespace-nowrap text-[15px] font-bold tracking-tight">My Halal Portfolio</span>
           </Link>
           <span className={`chip ml-1 whitespace-nowrap ${m?.open ? 'text-up' : 'text-ink2'}`} style={{ background: m?.open ? 'rgb(var(--up) / 0.12)' : 'rgb(var(--card2))' }}>
@@ -54,7 +54,8 @@ export default function Layout({ children }) {
             <Link to="/settings" className="rounded-full p-2 hover:bg-card2" aria-label="Settings">⚙️</Link>
           </div>
         </div>
-        {st?.demo && <div className="mt-2 rounded-lg bg-warn/15 px-3 py-1.5 text-xs text-ink"><b>Demo data</b> — synthetic prices for testing (DATA_MODE=demo). Set DATA_MODE=live in .env for real market data.</div>}
+        {st?.preview && <div className="mt-2 rounded-lg bg-brand/15 px-3 py-1.5 text-xs text-ink"><b>Preview snapshot</b> ({st.previewDate}) — read-only, demo prices, no live refresh. Your holdings are real; prices are synthetic.</div>}
+        {st?.demo && !st?.preview && <div className="mt-2 rounded-lg bg-warn/15 px-3 py-1.5 text-xs text-ink"><b>Demo data</b> — synthetic prices for testing (DATA_MODE=demo). Set DATA_MODE=live in .env for real market data.</div>}
         {!st?.demo && st?.health?.lastErr?.yahoo && <div className="mt-2 rounded-lg bg-down/10 px-3 py-1.5 text-xs">Price source unreachable — showing last known data. ({st.health.lastErr.yahoo.msg.slice(0, 80)})</div>}
       </header>
       <main className="min-w-0 px-3 pt-3">{children}</main>
@@ -80,7 +81,7 @@ export function PinGate({ children }) {
   return (
     <div className="flex min-h-screen items-center justify-center p-6">
       <form className="card w-full max-w-xs p-6 text-center" onSubmit={async (e) => { e.preventDefault(); try { await api.post('/login', { pin }); location.reload(); } catch (x) { setErr(x.message); } }}>
-        <img src="/favicon.svg" className="mx-auto mb-3 h-12 w-12" alt="" />
+        <img src={import.meta.env.BASE_URL + 'favicon.svg'} className="mx-auto mb-3 h-12 w-12" alt="" />
         <h1 className="mb-4 text-lg font-bold">Enter PIN</h1>
         <input className="input text-center text-2xl tracking-[0.5em]" inputMode="numeric" type="password" value={pin} onChange={(e) => setPin(e.target.value)} autoFocus aria-label="PIN" />
         {err && <div className="mt-2 text-sm text-down">{err}</div>}
