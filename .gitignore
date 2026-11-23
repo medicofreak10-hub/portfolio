@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+# Personal portfolio data, caches and broker exports: never commit
+data/
+*.xlsx
+*.xls
+*.csv
+!tests/fixtures/*.csv
+.DS_Store
+*.log
